@@ -1,3 +1,5 @@
+const loadWrapper = document.getElementById('loadWrapper')
+
 const signup = (email, password, nome) => {
     firebaseApp
         .auth()
@@ -31,5 +33,20 @@ const signup = (email, password, nome) => {
         })
         .catch(err => {
             console.warn(err)
+        })
+}
+
+carregarAlimentos = () => {
+    const telaInicial = document.getElementById('telaInicial')
+    firebaseApp
+        .database()
+        .ref(`comidas`)
+        .on('value', snap => {
+            let comidas = snap.val() ? Object.values(snap.val()) : []
+            localStorage.setItem('abccomidas', JSON.stringify(comidas))
+
+            comidas.map(({ desc, id, imagemURL, nome, preco }) => telaInicial.insertAdjacentElement('beforeend', cartaoAlimentacao(desc, id, imagemURL, nome, preco)))
+
+            loadWrapper.style.display = 'none'
         })
 }
