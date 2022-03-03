@@ -62,7 +62,7 @@ const signup = (email, password, nome) => {
         })
 }
 
-carregarAlimentos = () => {
+const carregarAlimentos = () => {
     const telaInicial = document.getElementById('telaInicial')
     firebaseApp
         .database()
