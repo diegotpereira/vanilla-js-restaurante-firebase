@@ -1,4 +1,29 @@
 const loadWrapper = document.getElementById('loadWrapper')
+const errDiv = document.querySelector('err')
+
+const signin = (email, password) => {
+    firebaseApp
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(res => {
+            firebaseApp
+                .database()
+                .ref(`usuarios/${res.usuario.uid}`)
+                .on('value', data => {
+                    let usuario = data.val()
+                    usuario && localStorage.setItem('abcusuario', JSON.stringify(usuario))
+                })
+            if (errDiv) {
+                errDiv.innerHTML = ''
+            }
+        })
+        .catch(err => {
+            console.warn(err.message);
+            if (errDiv) {
+                errDiv.innerHTML = err.message
+            }
+        })
+}
 
 const signup = (email, password, nome) => {
     firebaseApp
@@ -49,4 +74,9 @@ carregarAlimentos = () => {
 
             loadWrapper.style.display = 'none'
         })
+}
+
+const Sair = () => {
+    firebaseApp.auth().signOut()
+    window.location = window.location
 }
