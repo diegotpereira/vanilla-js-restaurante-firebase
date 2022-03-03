@@ -1,5 +1,6 @@
 const loadWrapper = document.getElementById('loadWrapper')
 const errDiv = document.querySelector('err')
+const emptyWrapper = document.querySelector('emptyWrapper')
 
 const signin = (email, password) => {
     firebaseApp
@@ -79,4 +80,47 @@ carregarAlimentos = () => {
 const Sair = () => {
     firebaseApp.auth().signOut()
     window.location = window.location
+}
+
+const enviarPedido = (produto, el) => {
+    const id = Date.now()
+
+    firebaseApp.auth().onAuthStateChanged(usuario => {
+        if (usuario) {
+            firebaseApp
+                .database()
+                .ref(`pedidos/${id}`)
+                .set({
+                    id,
+                    produto,
+                    usuarioID: usuario.uid
+                })
+            el.setAttribute('disabled', true)
+            el.innerHTML = 'enviado'
+        } else {
+            alert('você não está logado')
+        }
+    })
+}
+const carregarPedidos = () => {
+    console.log(emptyWrapper);
+
+    firebaseApp
+        .database()
+        .ref(`pedidos`)
+        .on('value', snap => {
+            let pedidos = snap.val() ? Object.values(snap.val()) : []
+            localStorage.setItem('abcpedidos', JSON.stringify(pedidos))
+
+            const telaPedidos = document.getElementById('telaPedidos')
+
+            pedidos.filter(({ usuarioID }) => usuarioID == firebaseApp.auth().currentUser.uid).map(({ produto }) => telaPedidos.insertAdjacentHTML('beforeend', pedidoCartao(produto.nome, produto.preco, produto.imagemURL)))
+
+            loadWrapper.style.display = 'none'
+
+            if (pedidos.filter(({ usuarioID }) => usuarioID == firebaseApp.auth().currentUser.uid).length < 1) {
+                emptyWrapper.style.display = 'block'
+            }
+            console.log('comparação1: ', firebaseApp.auth().currentUser.uid);
+        })
 }

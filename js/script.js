@@ -13,3 +13,10 @@ navRef && firebaseApp.auth().onAuthStateChanged(usuario => {
         navRef.insertAdjacentHTML('beforeend', navEl('<li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="entrar.html">Entrar</a></li>'))
     }
 })
+firebaseApp.auth().onAuthStateChanged(usuario => {
+    if (usuario) {
+        console.log("logado: ", usuario);
+    } {
+        console.log("desconectado");
+    }
+})
