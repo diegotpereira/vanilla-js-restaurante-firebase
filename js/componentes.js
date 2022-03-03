@@ -1,12 +1,12 @@
-let cartaoAlimentacao = (desc, id, imagemURL, name, price) => {
+let cartaoAlimentacao = (desc, id, imagemURL, nome, preco) => {
     return `<section class="page-section">
 	          <div class="container">
 			    <div class="product-item">
 				  <div class="product-item-title d-flex">
 				     <div class="bg-faded p-5 d-flex ms-auto rounded">
 					    <h2 class="section-heading mb-0">
-						   <span class="section-heading-upper">${name}</span>
-						   <span class="section-heading-lower>R$${price}</span>
+						   <span class="section-heading-upper">${nome}</span>
+						   <span class="section-heading-lower">R$${preco}</span>
 						</h2>
 					 </div>
 				  </div>
@@ -18,7 +18,7 @@ let cartaoAlimentacao = (desc, id, imagemURL, name, price) => {
 					 </div>
 					 <br />
 					 <button type="button" class="btn btn-primary" onclick="enviarPedido(
-						 ${JSON.stringify({ desc, id, imagemURL, name, price })}, this')>Pedido</button>
+						 ${JSON.stringify({ desc, id, imagemURL, nome, preco })}, this')>Pedido</button>
 				  </div>
 				</div>
 			  </div>
