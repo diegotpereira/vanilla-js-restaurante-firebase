@@ -45,7 +45,7 @@ carregarAlimentos = () => {
             let comidas = snap.val() ? Object.values(snap.val()) : []
             localStorage.setItem('abccomidas', JSON.stringify(comidas))
 
-            comidas.map(({ desc, id, imagemURL, nome, preco }) => telaInicial.insertAdjacentElement('beforeend', cartaoAlimentacao(desc, id, imagemURL, nome, preco)))
+            comidas.map(({ desc, id, imagemURL, nome, preco }) => telaInicial.insertAdjacentHTML('beforeend', cartaoAlimentacao(desc, id, imagemURL, nome, preco)))
 
             loadWrapper.style.display = 'none'
         })
